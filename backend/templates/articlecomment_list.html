@@ -28,7 +28,7 @@
         <td><a href="/articlecomments/{{ r.pk }}/edit/"><strong>{{ r.article_title }}</strong></a></td>
         <td>{{ r.author|default:"-" }}</td>
         <td style="color:var(--muted)">{{ r.date|date:"M d, Y"|default:"-" }}</td>
-        <td><span class="badge {{ r.helpful|yesno:\"badge-green,badge-red\" }}">{{ r.helpful|yesno:\"Yes,No\" }}</span></td>
+        <td><span class="badge {{ r.helpful|yesno:"badge-green,badge-red" }}">{{ r.helpful|yesno:"Yes,No" }}</span></td>
         <td><span class="badge badge-blue">{{ r.get_status_display }}</span></td>
         <td class="actions">
           <a href="/articlecomments/{{ r.pk }}/edit/" class="btn btn-primary btn-sm">Edit</a>
