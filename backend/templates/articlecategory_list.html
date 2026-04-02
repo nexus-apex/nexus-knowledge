@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Articlecategories | NexusKnowledge{% endblock %}
+{% block page_title %}Articlecategories{% endblock %}
+{% block content %}
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem">
+  <form class="search-bar" method="get" style="flex:1;margin-bottom:0">
+    <input type="text" name="search" value="{{ search }}" placeholder="Search articlecategories...">
+    <select name="status" onchange="this.form.submit()">
+      <option value="">All Status</option>
+      <option value="active" {% if status_filter == 'active' %}selected{% endif %}>Active</option>
+      <option value="hidden" {% if status_filter == 'hidden' %}selected{% endif %}>Hidden</option>
+    </select>
+    <button type="submit" class="btn btn-primary btn-sm">Search</button>
+  </form>
+  <a href="/articlecategories/create/" class="btn btn-primary">+ New ArticleCategory</a>
+</div>
+
+<div class="card">
+  {% if records %}
+  <table>
+    <thead>
+      <tr><th>Name</th><th>Parent</th><th>Articles Count</th><th>Position</th><th>Icon</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+      {% for r in records %}
+      <tr>
+        <td><a href="/articlecategories/{{ r.pk }}/edit/"><strong>{{ r.name }}</strong></a></td>
+        <td>{{ r.parent|default:"-" }}</td>
+        <td>{{ r.articles_count|default:"-" }}</td>
+        <td>{{ r.position|default:"-" }}</td>
+        <td>{{ r.icon|default:"-" }}</td>
+        <td class="actions">
+          <a href="/articlecategories/{{ r.pk }}/edit/" class="btn btn-primary btn-sm">Edit</a>
+          <form method="post" action="/articlecategories/{{ r.pk }}/delete/" style="display:inline" onsubmit="return confirm('Delete?')">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger btn-sm">Del</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="empty">
+    <p>No articlecategories found.</p>
+    <a href="/articlecategories/create/" class="btn btn-primary" style="margin-top:1rem">Create ArticleCategory</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
