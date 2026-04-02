@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}{% if editing %}Edit{% else %}New{% endif %} Article | NexusKnowledge{% endblock %}
+{% block page_title %}{% if editing %}Edit Article{% else %}New Article{% endif %}{% endblock %}
+{% block content %}
+<div class="card" style="max-width:750px">
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-row">
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" name="title" value="{{ record.title|default:'' }}">
+      </div>
+      <div class="form-group">
+        <label>Category</label>
+        <input type="text" name="category" value="{{ record.category|default:'' }}">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Author</label>
+        <input type="text" name="author" value="{{ record.author|default:'' }}">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Content</label>
+      <textarea name="content">{{ record.content|default:'' }}</textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Views</label>
+        <input type="number" name="views" value="{{ record.views|default:'0' }}">
+      </div>
+      <div class="form-group">
+        <label>Helpful</label>
+        <input type="number" name="helpful" value="{{ record.helpful|default:'0' }}">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Status</label>
+        <select name="status">
+          <option value="draft" {% if record.status == 'draft' %}selected{% endif %}>Draft</option>
+          <option value="published" {% if record.status == 'published' %}selected{% endif %}>Published</option>
+          <option value="under_review" {% if record.status == 'under_review' %}selected{% endif %}>Under Review</option>
+          <option value="archived" {% if record.status == 'archived' %}selected{% endif %}>Archived</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Tags</label>
+        <input type="text" name="tags" value="{{ record.tags|default:'' }}">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Last Updated</label>
+        <input type="date" name="last_updated" value="{{ record.last_updated|date:'Y-m-d'|default:'' }}">
+      </div>
+    </div>
+
+    <div style="display:flex;gap:0.75rem;margin-top:1rem">
+      <button type="submit" class="btn btn-primary">{% if editing %}Update{% else %}Create{% endif %} Article</button>
+      <a href="/articles/" class="btn" style="background:var(--border);color:var(--text)">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}
